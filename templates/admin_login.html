@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-9 col-md-5">
+    <div class="card p-3 p-md-4">
+      <h3 class="fw-bold">Admin Login</h3>
+      <p class="text-muted small">Enter the admin password.</p>
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+      <form method="POST" class="d-grid gap-2">
+        <input class="form-control" type="password" name="password" placeholder="Password">
+        <button class="btn btn-brand bg-dark text-light">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

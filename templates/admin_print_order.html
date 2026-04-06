@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delivery Note - Order #{{ order.id }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .border-box {
+      border: 1px solid #000;
+      padding: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .signature-box {
+      margin-top: 60px;
+      display: flex;
+      gap: 40px;
+      align-items: flex-end;
+}
+
+    .signature-box > div {
+      flex: 1;
+    }
+
+    .line {
+      border-bottom: 1px solid #000;
+      width: 300px;
+      margin-top: 40px;
+    }
+
+    @media print {
+      button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<button onclick="window.print()">Print</button>
+
+<h1>Delivery Note</h1>
+<div>Order ID: <strong>#{{ order.id }}</strong></div>
+<div>Date: {{ order.created_at }}</div>
+
+<div class="section border-box">
+  <strong>Customer Information</strong>
+  <div>Name: {{ order.customer_name }}</div>
+  <div>Phone: {{ order.phone }}</div>
+  <div>Address: {{ order.address }}</div>
+</div>
+
+<div class="section border-box">
+  <strong>Items</strong>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order.items %}
+      <tr>
+        <td>{{ item.product_name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>
+          {% if item.unit_price %}
+            ${{ "%.2f"|format(item.unit_price) }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="signature-box">
+  <div>
+    <div>Customer Name:</div>
+    <div class="line"></div>
+  </div>
+
+  <div>
+    <div style="margin-top:40px;">Signature:</div>
+    <div class="line"></div>
+  </div>
+
+  <div>
+    <div style="margin-top:40px;">Date of Delivery:</div>
+    <div class="line"></div>
+  </div>
+</div>
+
+</body>
+</html>

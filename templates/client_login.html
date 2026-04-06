@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+    <div class="card p-3 p-md-4 shadow-sm">
+      <h3 class="fw-bold mb-1">Login</h3>
+      <p class="text-muted mb-3 small">Access your orders with your phone number.</p>
+
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST" class="d-grid gap-3">
+        <div>
+          <label class="form-label fw-semibold">Phone or Email</label>
+          <input class="form-control" name="phone" placeholder="Phone or Gmail" required>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Password</label>
+          <input class="form-control" type="password" name="password" required>
+        </div>
+        <button class="btn btn-brand bg-dark text-light">Login</button>
+      </form>
+
+      <hr class="my-3">
+      <div class="text-center text-muted small">
+        New here? <a href="{{ url_for('client_register') }}">Create an account</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

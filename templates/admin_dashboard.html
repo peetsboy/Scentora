@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+  <h2 class="fw-bold mb-0">Admin Dashboard</h2>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-brand btn-sm bg-dark text-light" href="{{ url_for('admin_orders') }}">Orders</a>
+    <a class="btn btn-brand btn-sm bg-dark text-light" href="{{ url_for('admin_logout') }}">Logout</a>
+  </div>
+</div>
+
+<!-- Add product form -->
+<div class="card p-3 mb-4">
+  <h5 class="fw-bold mb-3">Add Product</h5>
+  <form method="POST" action="{{ url_for('admin_add') }}" enctype="multipart/form-data" class="row g-2">
+    <div class="col-12 col-sm-6 col-md-4">
+      <input class="form-control" name="name" placeholder="Product name" required>
+    </div>
+    <div class="col-6 col-md-2">
+      <input class="form-control" name="category" placeholder="Category" value="General">
+    </div>
+    <div class="col-6 col-md-2">
+      <input class="form-control" name="price" placeholder="Price">
+    </div>
+    <div class="col-6 col-md-2">
+      <input class="form-control" name="quantity" placeholder="Qty" value="0">
+    </div>
+    <div class="col-6 col-md-2">
+      <input class="form-control" type="file" name="image">
+    </div>
+    <div class="col-12">
+      <input class="form-control" name="description" placeholder="Description (optional)">
+    </div>
+    <div class="col-12">
+      <button class="btn btn-brand bg-dark text-light">Add Product</button>
+    </div>
+  </form>
+</div>
+
+<!-- Products table -->
+<div class="card p-3 mb-4">
+  <h5 class="fw-bold mb-3">Products</h5>
+  <div class="table-responsive">
+    <table class="table align-middle mb-0" style="min-width:500px;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Qty</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for p in products %}
+        <tr>
+          <td class="fw-semibold">{{ p.name }}</td>
+          <td class="text-muted small">{{ p.category }}</td>
+          <td>{{ p.quantity }}</td>
+          <td>
+            {% if p.status() == "in" %}
+              <span class="badge text-bg-success">In</span>
+            {% elif p.status() == "low" %}
+              <span class="badge text-bg-warning">Low</span>
+            {% else %}
+              <span class="badge text-bg-secondary">Out</span>
+            {% endif %}
+          </td>
+          <td class="text-end">
+            <a class="btn btn-outline-brand btn-sm btn-success" href="{{ url_for('admin_edit', product_id=p.id) }}">Edit</a>
+            <form method="POST" action="{{ url_for('admin_delete', product_id=p.id) }}" class="d-inline">
+              <button class="btn btn-brand-danger btn-sm btn-danger" onclick="return confirm('Delete this product?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Users table -->
+<div class="card p-3">
+  <h5 class="fw-bold mb-3">Users</h5>
+  <div class="table-responsive">
+    <table class="table align-middle mb-0" style="min-width:400px;">
+      <thead>
+        <tr>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.phone }}</td>
+          <td class="text-muted small">{{ user.email or '—' }}</td>
+          <td class="text-muted small">{{ user.created_at.strftime('%d %b %Y') if user.created_at else '' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

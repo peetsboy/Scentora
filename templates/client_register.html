@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+    <div class="card p-3 p-md-4 shadow-sm">
+      <h3 class="fw-bold mb-1">Create account</h3>
+      <p class="text-muted mb-3 small">Register using your phone number.</p>
+
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST" class="d-grid gap-3">
+        <div>
+          <label class="form-label fw-semibold">Phone</label>
+          <input class="form-control" name="phone" placeholder="+961..." type="tel" required>
+          <div class="form-text">We'll contact you for delivery.</div>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Email <span class="text-muted fw-normal">(optional)</span></label>
+          <input class="form-control" name="email" type="email" placeholder="youremail@example.com">
+          <div class="form-text">Only needed if you'd like to receive the latest Scentora news & updates.</div>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">New Password</label>
+          <input class="form-control" type="password" name="password" minlength="6" required>
+          <div class="form-text">At least 6 characters.</div>
+        </div>
+        <button class="btn btn-brand bg-dark text-light">Register</button>
+      </form>
+
+      <hr class="my-3">
+      <div class="text-center text-muted small">
+        Already have an account? <a href="{{ url_for('client_login') }}">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

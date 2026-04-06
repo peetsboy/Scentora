@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card p-3 p-md-4">
+      <h3 class="fw-bold">Checkout</h3>
+
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      <div class="border rounded-3 p-3 mb-3 bg-white">
+        <div class="fw-semibold">{{ product.name }}</div>
+        <div class="text-muted small">{{ product.category }}</div>
+        <div class="mt-1 small">Available: <b>{{ product.quantity }}</b></div>
+        {% if product.price %}
+          <div class="small">Price: <b>${{ "%.2f"|format(product.price) }}</b></div>
+        {% endif %}
+      </div>
+
+      <form method="POST" class="d-grid gap-2">
+        <div>
+          <label class="form-label fw-semibold">Full name</label>
+          <input class="form-control" name="customer_name" required>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Phone</label>
+          <input class="form-control" name="phone" type="tel" required>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Delivery address</label>
+          <textarea class="form-control" name="address" rows="3" required></textarea>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Quantity</label>
+          <input class="form-control" type="number" name="qty" min="1" value="1" required>
+        </div>
+        <div>
+          <label class="form-label fw-semibold">Payment Methode</label>
+          <input class="form-control" type="text" disabled="True" value="Cash On Delivery">
+        </div>
+        <button class="btn btn-brand mt-1">Place Order</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
