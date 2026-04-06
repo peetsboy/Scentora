@@ -21,7 +21,10 @@ app = Flask(__name__)
 UPLOAD_FOLDER = os.path.join("static", "uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["SECRET_KEY"] = "change-this-secret"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///inventory.db"
+database_url = os.environ.get("DATABASE_URL", "sqlite:///inventory.db")
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
